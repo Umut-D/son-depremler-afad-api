@@ -1,7 +1,7 @@
 ## Son Depremler AFAD API
 AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API.
 
-### Nasıl kullanılır
+### Nasıl kullanılır:
 _Paketi kurduktan sonra aşağıdaki import işlemini yapınız:_ <br>
 
 **from app.dosya.depremler import Depremler**<br>
@@ -24,5 +24,5 @@ depremler = Depremler()
 depremler.duzenli_veriler()
 ```
 
-### PyPI.org
+### PyPI.org Link:
 https://pypi.org/project/son-depremler-afad-api/1.0.0/
