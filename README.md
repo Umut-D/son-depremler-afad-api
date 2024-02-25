@@ -13,7 +13,7 @@ _dizi olarak göstermek için -> [['2024-02-25 08:56:38', 'Serik (Antalya)', '2.
 
 ```python
 depremler = Depremler()
-json_veriler = depremler.json_veriler()
+json_veriler = depremler.veriler()
 ```
 
 _satır satır yazdırmak için -> 2024-02-25 08:56:38 - Serik (Antalya) - 2.6 - 37.24139 - 30.95028 - 21.78_<br>
