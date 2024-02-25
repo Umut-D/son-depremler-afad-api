@@ -23,9 +23,6 @@ class Depremler:
     """
 
     def __init__(self):
-        """
-        Depremler sınıfının başlatıcı yöntemi.
-        """
         self._json = Baglanti()
 
     def __json_veri_yukle(self):
@@ -37,9 +34,9 @@ class Depremler:
         """
         return json.loads(self._json.indir())
 
-    def json_veriler(self) -> list | str:
+    def veriler(self) -> list | str:
         """
-        JSON formatındaki deprem verilerini işler.
+        JSON formatındaki deprem verilerini işleyip sıralı döndürür
 
         Returns:
             list | str: İşlenmiş deprem verileri veya hata mesajı
@@ -73,6 +70,6 @@ class Depremler:
         """
         print("Tarih ve Saat", "Konum", "Şiddet", "Enlem", "Boylam", "Derinlik", sep=" - ")
 
-        veriler = self.json_veriler()[:limit]
+        veriler = self.veriler()[:limit]
         for veri in veriler:
             print(*veri, sep=" - ")
