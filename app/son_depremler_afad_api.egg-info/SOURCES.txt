@@ -1,0 +1,11 @@
+LICENCE
+README.md
+setup.py
+app/son_depremler_afad_api.egg-info/PKG-INFO
+app/son_depremler_afad_api.egg-info/SOURCES.txt
+app/son_depremler_afad_api.egg-info/dependency_links.txt
+app/son_depremler_afad_api.egg-info/requires.txt
+app/son_depremler_afad_api.egg-info/top_level.txt
+tests/test_baglanti.py
+tests/test_depremler.py
+tests/test_tarih.py
