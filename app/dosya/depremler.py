@@ -1,75 +1,67 @@
-"""
-Depremler Modülü
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=import-error
 
-Bu modül, deprem verilerini işlemek için gerekli sınıf ve fonksiyonları içerir.
-
-Classes:
-    Depremler: Depremler verilerini işlemek için bir sınıf.
-"""
 import json
+import tabulate
+
 from app.internet.baglanti import Baglanti
 
 
 class Depremler:
-    """
-    Depremler Sınıfı
-
-    Bu sınıf, deprem verilerini işlemek için gerekli yöntemleri sağlar.
-
-    Methods:
-        __init__: Depremler sınıfının başlatıcı yöntemi.
-        json_veriler: JSON formatındaki deprem verilerini işler.
-        duzenli_veriler: İşlenmiş deprem verilerini düzenli bir şekilde yazdırır.
-    """
-
     def __init__(self):
         self._json = Baglanti()
 
-    def __json_veri_yukle(self):
-        """
-        JSON veri yükleme yöntemi.
+    def _json_veri_yukle(self):
+        veri = self._json.json_indir()
 
-        Returns:
-            dict: Yüklü JSON verileri
-        """
-        return json.loads(self._json.indir())
+        return json.loads(veri)
 
-    def veriler(self) -> list | str:
-        """
-        JSON formatındaki deprem verilerini işleyip sıralı döndürür
-
-        Returns:
-            list | str: İşlenmiş deprem verileri veya hata mesajı
-        """
+    def tum_veriler(self) -> list | str:
         try:
             depremler = []
-            for event in self.__json_veri_yukle():
-                depremler.append([
-                    f"{event['date'].replace('T', ' ')}",
-                    f"{event['location']}",
-                    f"{event['magnitude']}",
-                    f"{event['latitude']}",
-                    f"{event['longitude']}",
-                    f"{event['depth']}",
-                ])
+            for event in self._json_veri_yukle():
+                depremler.append(
+                    [
+                        f"{event['date'].replace('T', ' ')}",
+                        f"{event['location']}",
+                        f"{event['magnitude']}",
+                        f"{event['latitude']}",
+                        f"{event['longitude']}",
+                        f"{event['depth']}",
+                    ])
 
             return sorted(depremler, reverse=True)
 
         except json.JSONDecodeError:
             return "JSON verisi okunamadı"
+        except KeyError:
+            return "JSON formatı beklenen yapıda değil: Eksik anahtar var."
+        except ValueError:
+            return "Değer hatası oldu. Bilemedim."
 
-    def duzenli_veriler(self, limit=7):
-        """
-        İşlenmiş deprem verilerini düzenli ve sıralı şekilde yazdırır.
+    def duzenli_veriler(self, limit=7) -> str:
+        veriler = self.tum_veriler()
+        if isinstance(veriler, str):
+            return veriler
 
-        Args:
-            limit (int): Yazdırılacak maksimum veri sayısı. Varsayılan değer 7.
-
-        Returns:
-            None
-        """
         print("Tarih ve Saat", "Konum", "Şiddet", "Enlem", "Boylam", "Derinlik", sep=" - ")
 
-        veriler = self.veriler()[:limit]
-        for veri in veriler:
-            print(*veri, sep=" - ")
+        tum_veriler = [" - ".join(veri) for veri in veriler[:limit]]
+
+        return "\n".join(tum_veriler)
+
+    def tablo_veriler(self, limit=7) -> str:
+        veriler = self.tum_veriler()
+        if isinstance(veriler, str):
+            return veriler
+
+        basliklar = ["Tarih ve Saat", "Konum", "Şiddet", "Enlem", "Boylam", "Derinlik"]
+        tablo = tabulate.tabulate(
+            veriler[:limit],
+            headers=basliklar,
+            tablefmt="grid",
+            colalign=("left", "left", "left", "left", "left", "left")
+        )
+        return tablo
