@@ -47,10 +47,8 @@ print(depremler.tablo_veriler())
 ### ⚙️ Bağımlılıklar
 Projenin çalışması için gereken ana Python kütüphaneleri:
 
-* **requests**: HTTP istekleri yapmak için.
+* **urllib3**: HTTP istemleri yapmak için.
 * **tabulate**: Tablo olarak görüntüleme yapmak için.
-
-Detaylı liste için requirements.txt dosyasına bakınız.
 
 ### PyPI.org Link:
 https://pypi.org/project/son-depremler-afad-api/1.1.0/
