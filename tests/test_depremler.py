@@ -1,32 +1,30 @@
-"""
-TestDepremler Sınıfı
-
-Bu sınıf, Depremler sınıfının unittest'lerini içerir.
-
-Methods:
-    test_json_veri: Depremler sınıfının json_veriler metodu için doğrulama yapar.
-"""
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
 
 import unittest
 from app.dosya.depremler import Depremler
 
 
 class TestDepremler(unittest.TestCase):
-    """
-    TestDepremler Sınıfı
-
-    Bu sınıf, Depremler sınıfının unittest'lerini içerir.
-    """
 
     def test_json_veri(self):
-        """
-        Depremler sınıfının json_veriler metodu için doğrulama yapar.
-
-        Returns:
-            None
-        """
         depremler = Depremler()
 
-        json_veriler = depremler.json_veriler()
+        json_veriler = depremler.tum_veriler()
 
         self.assertIsInstance(json_veriler, list)
+
+    def test_tablo_veri(self):
+        depremler = Depremler()
+
+        tablo_veriler = depremler.tablo_veriler()
+
+        self.assertIsInstance(tablo_veriler, str)
+
+    def test_duzenli_veri(self):
+        depremler = Depremler()
+
+        duzenli_veriler = depremler.duzenli_veriler()
+
+        self.assertIsInstance(duzenli_veriler, str)

@@ -1,7 +1,16 @@
-## Son Depremler AFAD API
+## Son Depremler AFAD API (1.11)
 AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API.
 
-### Nasıl kullanılır:
+### ✨ Özellikler
+
+* **Güncel Veri:** AFAD'ın [Ulusal Deprem Gözlem Merkezi](https://deprem.afad.gov.tr/last-earthquakes.html) tarafından yayınlanan en son deprem verilerini kullanır.
+* **Detaylı Bilgi:** Her deprem için tarih, saat, enlem, boylam, derinlik, büyüklük (tipiyle birlikte - örn. ML, Mw) ve meydana geldiği yer (ilçe, il) bilgilerini içerir.
+* **Basit Kullanım:** Kolay kurulum ve çalıştırma adımları.
+* **Esnek Çıktı:** Verileri doğrudan konsola yazdırabilir [veya JSON formatında bir API endpoint'i üzerinden sunabilir - eğer API özelliği varsa bu kısmı ekleyin].
+* **Açık Kaynak:** MIT Lisansı ile lisanslanmıştır, katkılarınıza açıktır.
+
+
+### 🚀 Nasıl kullanılır:
 _Paketi kurduktan sonra aşağıdaki import işlemini yapınız:_ <br>
 
 ```python
@@ -34,6 +43,14 @@ _tablo halinde ve istenen sayıda yazdırmak için (Tablo hali buradan çok daha
 depremler = Depremler()
 print(depremler.tablo_veriler())
 ```
+
+### ⚙️ Bağımlılıklar
+Projenin çalışması için gereken ana Python kütüphaneleri:
+
+* **requests**: HTTP istekleri yapmak için.
+* **tabulate**: Tablo olarak görüntüleme yapmak için.
+
+Detaylı liste için requirements.txt dosyasına bakınız.
 
 ### PyPI.org Link:
 https://pypi.org/project/son-depremler-afad-api/1.1.0/

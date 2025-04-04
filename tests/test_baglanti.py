@@ -20,3 +20,28 @@ class TestIndir(unittest.TestCase):
         sonuc = self.baglanti.json_indir()
 
         self.assertEqual(sonuc, "")
+
+    def test_url(self):
+        self.baglanti.json_indir = lambda: "test"
+        sonuc = self.baglanti.json_indir()
+
+        self.assertEqual(sonuc, "test")
+
+    # bağlantı hatasını test et
+    def test_baglanti_hata(self):
+        self.baglanti.json_indir = lambda: "Bağlantı hatası"
+        sonuc = self.baglanti.json_indir()
+
+        self.assertEqual(sonuc, "Bağlantı hatası")
+
+    def test_zaman_asimi(self):
+        self.baglanti.json_indir = lambda: "Zaman asımı"
+        sonuc = self.baglanti.json_indir()
+
+        self.assertEqual(sonuc, "Zaman asımı")
+
+    def test_http_hata(self):
+        self.baglanti.json_indir = lambda: "HTTP hatası"
+        sonuc = self.baglanti.json_indir()
+
+        self.assertEqual(sonuc, "HTTP hatası")
