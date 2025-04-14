@@ -1,4 +1,4 @@
-## Son Depremler AFAD API (1.11)
+## Son Depremler AFAD API (1.12)
 AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API.
 
 ### ✨ Özellikler
@@ -51,4 +51,4 @@ Projenin çalışması için gereken ana Python kütüphaneleri;
 * **tabulate**: Tablo olarak görüntüleme yapmak için.
 
 ### PyPI.org Link:
-https://pypi.org/project/son-depremler-afad-api/1.1.1/
+https://pypi.org/project/son-depremler-afad-api/1.1.2/

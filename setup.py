@@ -22,10 +22,9 @@ def readme() -> str:
 
 setup(
     name="son-depremler-afad-api",
-    version="1.1.1",
+    version="1.1.2",
     description="AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API",
-    package_dir={"": "app"},
-    packages=find_packages(where="app", exclude=["tests"]),
+    packages=find_packages(exclude=["tests"]),
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/umut-d/son-depremler-afad-api",
