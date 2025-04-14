@@ -51,4 +51,4 @@ Projenin çalışması için gereken ana Python kütüphaneleri:
 * **tabulate**: Tablo olarak görüntüleme yapmak için.
 
 ### PyPI.org Link:
-https://pypi.org/project/son-depremler-afad-api/1.1.0/
+https://pypi.org/project/son-depremler-afad-api/1.1.1/

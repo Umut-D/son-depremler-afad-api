@@ -1,3 +1,7 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 """
 son-depremler-afad-api paketi için kurulum betiği.
 
@@ -12,19 +16,13 @@ from setuptools import find_packages, setup
 
 
 def readme() -> str:
-    """
-    README.md dosyasının içeriğini okur ve bir dize olarak döndürür.
-
-    Returns:
-        str: README.md dosyasının içeriği.
-    """
     with open("README.md", "r", encoding="utf-8") as oku:
         return oku.read()
 
 
 setup(
     name="son-depremler-afad-api",
-    version="1.0.0",
+    version="1.1.1",
     description="AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API",
     package_dir={"": "app"},
     packages=find_packages(where="app", exclude=["tests"]),
