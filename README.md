@@ -45,7 +45,7 @@ print(depremler.tablo_veriler())
 ```
 
 ### ⚙️ Bağımlılıklar
-Projenin çalışması için gereken ana Python kütüphaneleri:
+Projenin çalışması için gereken ana Python kütüphaneleri;
 
 * **urllib3**: HTTP istemleri yapmak için.
 * **tabulate**: Tablo olarak görüntüleme yapmak için.
