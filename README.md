@@ -32,12 +32,16 @@ depremler = Depremler()
 print(depremler.duzenli_veriler()())
 ```
 
-_tablo halinde ve istenen sayıda yazdırmak için (Tablo hali buradan çok daha güzel görünüyor) ->
-+---------------------+---------------------------+--------+--------+---------+-----------+
-| Tarih ve Saat       | Konum                        | Şiddet   | Enlem   | Boylam   | Derinlik   |
-+=====================+===========================+========+========+=========+===========+
-| 2025-03-02 01:35:45 | Dulkadiroğlu (Kahramanmaraş) | 1.8      | 37.4447 | 37.1425  | 7          |
-<br>
+tablo halinde ve istenen sayıda yazdırmak için:
+<div style="overflow-x: auto; margin: -10px 0;">
+<pre style="background-color: #f6f8fa; padding: 16px; border-radius: 6px; border: 1px solid #d0d7de;">
++---------------------+------------------------------+--------+----------+-----------+-----------+
+| Tarih ve Saat       | Konum                        | Şiddet | Enlem    | Boylam    | Derinlik  |
++=====================+==============================+========+==========+===========+===========+
+| 2025-03-02 01:35:45 | Dulkadiroğlu (Kahramanmaraş) | 1.8    | 37.4447  | 37.1425   | 7         |
++---------------------+------------------------------+--------+----------+-----------+-----------+
+</pre>
+</div>
 
 ```python
 depremler = Depremler()
