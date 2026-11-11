@@ -5,8 +5,8 @@
 # pylint: disable=line-too-long
 
 from urllib import request
-from urllib.error import URLError
-from urllib3.exceptions import HTTPError
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
 
 from app.dosya.tarih import Tarih
 
@@ -14,18 +14,30 @@ from app.dosya.tarih import Tarih
 class Baglanti:
     def __init__(self):
         tarih = Tarih()
-        self.url = f"https://deprem.afad.gov.tr/apiv2/event/filter?&{tarih.son_24_saat()}&format=json"
+        parametreler = dict(
+            parametre.split("=", 1)
+            for parametre in tarih.son_24_saat().split("&")
+        )
+        parametreler["format"] = "json"
+        self.url = (
+            "https://deprem.afad.gov.tr/apiv2/event/filter?"
+            f"{urlencode(parametreler)}"
+        )
 
-    def json_indir(self) -> (str | None):
+    def json_indir(self) -> bytes | str:
         try:
-            with request.urlopen(self.url, timeout=10) as response:
-                if response.getcode() == 200:
+            # Sabit HTTPS AFAD adresi kullanıcı girdisi almadığından B310 yanlış alarm verir.
+            with request.urlopen(self.url, timeout=10) as response:  # nosec B310
+                durum_kodu = response.getcode()
+                if durum_kodu == 200:
                     return response.read()
-        except URLError:
-            return "İnternet bağlantısı yok veya sayfa indirilemedi."
-        except TimeoutError:
-            return "Bağlantı zaman aşımına uğradı."
+                # Başarılı olmayan cevapta boş veri yerine gerçek nedeni bildir.
+                return f"Sunucudan beklenmeyen durum kodu: {durum_kodu}."
         except HTTPError:
             return "Sunucudan HTTP hatası alındı."
-
-        return None
+        except URLError as hata:
+            if isinstance(hata.reason, TimeoutError):
+                return "Sunucuya bağlanma zaman aşımına uğradı."
+            return "İnternet bağlantısı yok veya sayfa indirilemedi."
+        except TimeoutError:
+            return "Sunucudan yanıt verisi okuma zaman aşımına uğradı."

@@ -1,58 +1,101 @@
-## Son Depremler AFAD API (1.12)
-AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API.
+# Son Depremler AFAD API
 
-### ✨ Özellikler
+AFAD'ın resmi web sayfasında yayımlanan son 24 saatlik Türkiye deprem verilerini Python ile almanızı sağlar.
 
-* **Güncel Veri:** AFAD'ın [Ulusal Deprem Gözlem Merkezi](https://deprem.afad.gov.tr/last-earthquakes.html) tarafından yayınlanan en son deprem verilerini kullanır.
-* **Detaylı Bilgi:** Her deprem için tarih, saat, enlem, boylam, derinlik, büyüklük (tipiyle birlikte - örn. ML, Mw) ve meydana geldiği yer (ilçe, il) bilgilerini içerir.
-* **Basit Kullanım:** Kolay kurulum ve çalıştırma adımları.
-* **Esnek Çıktı:** Verileri doğrudan konsola yazdırabilir [veya JSON formatında bir API endpoint'i üzerinden sunabilir - eğer API özelliği varsa bu kısmı ekleyin].
-* **Açık Kaynak:** MIT Lisansı ile lisanslanmıştır, katkılarınıza açıktır.
+## Özellikler
 
+- Depremin tarihini, saatini, konumunu, büyüklüğünü, enlem ve boylamını, derinliğini sunar.
+- Verileri liste, satır satır metin veya tablo olarak döndürür.
+- Son N depremi ve minimum büyüklük eşiğine göre sonuçları süzer.
+- AFAD'ın yayımladığı verileri kullanır; deprem verisini kendisi üretmez.
 
-### 🚀 Nasıl kullanılır:
-_Paketi kurduktan sonra aşağıdaki import işlemini yapınız:_ <br>
+## Kurulum
+
+```bash
+python -m pip install son-depremler-afad-api
+```
+
+Paket, tablo çıktısı için gereken `tabulate` bağımlılığını otomatik kurar.
+
+## Hızlı başlangıç
 
 ```python
 from app.dosya.depremler import Depremler
-```
-**"Tarih ve Saat, Konum, Şiddet, Enlem, Boylam, Derinlik"** şeklinde olan verileri;<br>
 
-_dizi olarak göstermek için -> [['2025-03-02 01:35:45', 'Dulkadiroğlu (Kahramanmaraş)', '1.8', '37.44472', '37.1425', '7']]..._<br>
+depremler = Depremler()
+print(depremler.duzenli_veriler())
+```
+
+## Çıktı biçimleri
+
+### Liste
 
 ```python
 depremler = Depremler()
 print(depremler.tum_veriler())
 ```
 
-_satır satır ve istenen sayıda yazdırmak için -> 2025-03-02 01:35:45 - Dulkadiroğlu (Kahramanmaraş) - 1.8 - 37.44472 - 37.1425 - 7_<br>
-
-```python
-depremler = Depremler()
-print(depremler.duzenli_veriler()())
-```
-
-tablo halinde ve istenen sayıda yazdırmak için:
-<div style="overflow-x: auto; margin: -10px 0;">
-<pre style="background-color: #f6f8fa; padding: 16px; border-radius: 6px; border: 1px solid #d0d7de;">
-+---------------------+------------------------------+--------+----------+-----------+-----------+
-| Tarih ve Saat       | Konum                        | Şiddet | Enlem    | Boylam    | Derinlik  |
-+=====================+==============================+========+==========+===========+===========+
-| 2025-03-02 01:35:45 | Dulkadiroğlu (Kahramanmaraş) | 1.8    | 37.4447  | 37.1425   | 7         |
-+---------------------+------------------------------+--------+----------+-----------+-----------+
-</pre>
-</div>
+### Tablo
 
 ```python
 depremler = Depremler()
 print(depremler.tablo_veriler())
 ```
 
-### ⚙️ Bağımlılıklar
-Projenin çalışması için gereken ana Python kütüphaneleri;
+### Satır satır metin
 
-* **urllib3**: HTTP istemleri yapmak için.
-* **tabulate**: Tablo olarak görüntüleme yapmak için.
+```python
+depremler = Depremler()
+print(depremler.duzenli_veriler())
+```
 
-### PyPI.org Link:
-https://pypi.org/project/son-depremler-afad-api/1.1.2/
+Not: `duzenli_veriler()` başlık satırını kendisi ekrana yazar, döndürdüğü metin yalnızca deprem satırlarını içerir. Yukarıdaki `print` örneği ikisini birlikte gösterir.
+
+## Sonuçları sınırlandırma
+
+`limit`, en yeni kaç depremin alınacağını belirtir. `minimum_buyukluk`, bu değer **ve üzerindeki** depremleri tutar. Önce büyüklük filtresi, sonra sonuç sayısı uygulanır. Parametre adları ve açıklamaları editörün IntelliSense yardımında da görünür.
+
+```python
+# Son 6 deprem
+depremler.tum_veriler(6)
+
+# Büyüklüğü en az 3.0 olan en yeni 6 deprem (3.0 dahil)
+depremler.tum_veriler(6, 3)
+
+# Aynı seçenekler metin ve tablo çıktısında da kullanılabilir
+print(depremler.duzenli_veriler(6, 3))
+print(depremler.tablo_veriler(6, 3))
+```
+
+`3` eşiğine eşit depremler dahildir; yalnızca 3.0'ın altındakiler elenir. `duzenli_veriler()` varsayılan olarak 7, `tablo_veriler()` 10 kayıt gösterir. `tum_veriler()` varsayılan olarak tüm kayıtları döndürür. Tablo sayısal değerleri yuvarlamadan, kaynak verideki basamakları koruyarak gösterir.
+
+## Saat dilimi
+
+AFAD API tarihleri UTC olarak verir. Kütüphane bunları cihazın saat diliminden bağımsız biçimde Türkiye saatine (UTC+03:00) çevirerek gösterir. Örneğin API'deki `2026-11-10 12:36:18` değeri çıktıda `2026-11-10 15:36:18` olur. Liste, düzenli metin ve tablo başlıklarında saat dilimi `UTC+03:00` olarak belirtilir.
+
+## Gereksinimler
+
+- Python 3.10 veya üzeri
+- `tabulate` (paket kurulurken otomatik yüklenir)
+- `tzdata` (Türkiye saat dilimi verisi; tüm işletim sistemlerinde otomatik yüklenir)
+- `urllib` (Python standart kütüphanesi; ayrıca yüklenmez)
+
+## 1.3.0 sürümündeki değişiklikler
+
+- Son N deprem ve minimum büyüklük filtreleri liste, metin ve tablo metotlarına eklendi.
+- API parametreleri tür ipuçları ve IntelliSense açıklamalarıyla belgelendi.
+- Kurulum, tablo çıktısı için `tabulate` bağımlılığını otomatik yükler.
+- Python 3.10 ve üzeri desteklenir.
+- AFAD sorgu aralığı UTC ile hesaplanır; dönen deprem saatleri Türkiye saati (UTC+03:00) olarak gösterilir. Bağlantı, boş cevap ve beklenmeyen HTTP durumları daha anlaşılır biçimde ele alınır.
+- Kullanılmayan `urllib3` bağımlılığı kaldırıldı; HTTP isteklerinde Python'ın standart `urllib` kütüphanesi kullanılır.
+- README'deki kullanım örneği düzeltildi.
+
+## Bağlantılar
+
+- [PyPI paket sayfası](https://pypi.org/project/son-depremler-afad-api/)
+- [GitHub deposu](https://github.com/umut-d/son-depremler-afad-api)
+- [AFAD son depremler sayfası](https://deprem.afad.gov.tr/last-earthquakes.html)
+
+## Lisans
+
+MIT lisansı. Ayrıntılar için depodaki `LICENCE` dosyasına bakın.

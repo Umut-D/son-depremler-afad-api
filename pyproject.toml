@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "son-depremler-afad-api"
+version = "1.3.0"
+description = "AFAD'ın resmi web sayfasından son 24 saatte Türkiye'de olan depremleri çeken API"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Umut D." }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "tabulate>=0.10.0",
+    "tzdata>=2025.2",
+]
+
+[project.optional-dependencies]
+dev = ["twine>=4.0.2", "pytest>=9.0", "pytest-spec>=6.0"]
+
+[project.urls]
+Homepage = "https://github.com/umut-d/son-depremler-afad-api"
+PyPI = "https://pypi.org/project/son-depremler-afad-api/"
+
+[tool.setuptools.packages.find]
+exclude = ["tests"]
+
+[tool.pytest.ini_options]
+addopts = "--spec"

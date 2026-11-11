@@ -1,2 +1,10 @@
-
-.qodo
+YOL.md
+dosya_agaci.txt
+.idea/
+dist/
+*.egg-info/
+.venv/
+build/
+.ruff_cache/
+__pycache__/
+.pytest_cache/
